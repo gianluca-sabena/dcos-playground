@@ -1,0 +1,19 @@
+---
+- hosts: boot
+  become: true
+  become_user: root
+  tasks:
+  - name: test connection
+    ping:
+  - name: create dir /opt/downloads
+    file: path=/opt/downloads state=directory
+  - name: create dir /opt/dcos-cli
+    file: path=/opt/dcos-cli state=directory
+  - get_url: url=https://downloads.dcos.io/dcos-cli/install.sh dest=/opt/downloads/install.sh
+  - yum: name=epel-release state=present
+  - yum: name=python-pip state=present
+  - pip: name=virtualenv
+  - name: install
+    shell: bash /opt/downloads/install.sh /opt/dcos-cli http://m1.dcos --add-path yes
+    args:
+        executable: /bin/bash

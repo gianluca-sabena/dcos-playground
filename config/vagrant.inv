@@ -1,0 +1,16 @@
+[mesos:vars]
+ansible_user=vagrant
+ansible_sudo=true
+ansible_private_key_file=.vagrant/machines/{{inventory_hostname_short}}/virtualbox/private_key
+
+
+[mesos]
+m[1:3].dcos     mesos_role="master"
+a[1:4].dcos     mesos_role="agent"
+boot.dcos       mesos_role="boot"
+
+[boot]
+boot.dcos       mesos_role="boot"
+
+[local]
+localhost           ansible_connection=local

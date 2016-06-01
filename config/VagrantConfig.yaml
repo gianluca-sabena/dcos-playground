@@ -1,0 +1,40 @@
+m1:
+  ip: 192.168.65.90
+  cpus: 2
+  memory: 1024
+  type: master
+m2:
+  ip: 192.168.65.95
+  cpus: 2
+  memory: 1024
+  type: master
+m3:
+  ip: 192.168.65.101
+  cpus: 2
+  memory: 1024
+  type: master
+a1:
+  ip: 192.168.65.111
+  cpus: 2
+  memory: 1024
+  type: agent-private
+a2:
+  ip: 192.168.65.121
+  cpus: 2
+  memory: 1024
+  type: agent-private
+a3:
+  ip: 192.168.65.122
+  cpus: 2
+  memory: 1024
+  type: agent-private
+a4:
+  ip: 192.168.65.123
+  cpus: 2
+  memory: 1024
+  type: agent-private
+boot:
+  ip: 192.168.65.50
+  cpus: 2
+  memory: 256
+  type: boot
