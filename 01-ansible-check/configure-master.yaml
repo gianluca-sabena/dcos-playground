@@ -1,0 +1,15 @@
+---
+- hosts: mesos-masters
+  become: true
+  become_user: root
+  tasks:
+  - name: test connection
+    ping:
+  - service: name=dcos-mesos-master state=stopped
+  - file: path=/opt/config state=directory
+  - copy: src=config/acl.json dest=/opt/config/acl.json owner=root group=root mode=0644
+  - lineinfile: dest=/opt/mesosphere/etc/mesos-master line="MESOS_ACLS file:///opt/config/acl.json"
+  - service: name=dcos-mesos-master state=started
+  - uri: url=http://m1.dcos:5050/state
+    register: result
+  - debug: var=result

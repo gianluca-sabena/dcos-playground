@@ -1,2 +1,2 @@
 dcos-vagrant
-.retry
+*.retry

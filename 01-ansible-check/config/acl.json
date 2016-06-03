@@ -1,0 +1,23 @@
+{
+  "permissive": false,
+  "reserve_resources": [
+                         {
+                           "principals": {
+                             "type": "ANY"
+                           },
+                           "roles": {
+                             "type": "ANY"
+                           }
+                         }
+                       ],
+ "unreserve_resources": [
+                        {
+                          "principals": {
+                            "type": "ANY"
+                          },
+                          "reserver_principals": {
+                            "type": "ANY"
+                          }
+                        }
+                      ]
+}

@@ -75,9 +75,13 @@ function clusterInit() {
 
 function clusterUp() {
   case ${CLUSTER_SIZE} in
+    "vagrant_minimal")
+      msg " Start vagrant_small (1 master, 1 agent1, 1 boot) cluster"
+      vagrant up m1 a1 boot
+      ;;
     "vagrant_small")
-      msg " Start vagrant_small (1 master, 2 agents, 1 boot) cluster"
-      vagrant up m1 a1 a2 boot
+      msg " Start vagrant_small (1 master, 3 agents, 1 boot) cluster"
+      vagrant up m1 a1 a2 a3 boot
       ;;
     "vagrant_big")
       msg " Start vagrant_big (3 masters, 4 agents, 1 boot) cluster"
@@ -104,7 +108,7 @@ case ${ARG_CMD} in
   "up")   clusterUp ;;
   "ansible")
     echo " * run ansible"
-    ansible-playbook -i ${SCRIPT_PATH}/config/vagrant.inv ../${ARG_CMD_OPT}
+    ansible-playbook -i ${SCRIPT_PATH}/config/${CLUSTER_SIZE}.inv ../${ARG_CMD_OPT}
   ;;
 	"status")
 	  cd ${SCRIPT_PATH}/dcos-vagrant/
@@ -121,6 +125,14 @@ case ${ARG_CMD} in
 	"snapshot_save")
 	  msg " Create vagrant snapshot"
     vagrantSnapshotSave ${ARG_CMD_OPT}
+	;;
+	"DESTROY")
+		read -p "Type DESTROY to delete all cluster machines and data? " RESP
+		if [ "${RESP}" = "DESTROY" ]; then
+			vagrant destroy -f
+		else
+			echo "Nothing to do"
+		fi
 	;;
   *)  echo " * Command not found" ;;
 esac

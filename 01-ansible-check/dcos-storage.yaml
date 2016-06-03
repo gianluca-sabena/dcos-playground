@@ -1,0 +1,52 @@
+---
+- hosts: mesos-agents
+  become: true
+  become_user: root
+  tasks:
+  - name: test connection
+    ping:
+  - name: check for file
+    stat: path=/dcos-data-disks/volume0.img
+    register: file_exists
+  - name: stop mesos service
+    service: name=dcos-mesos-slave state=stopped
+    when: not file_exists.stat.exists
+  - name: clean dcos meta data
+    when: not file_exists.stat.exists
+    file: path=/var/lib/dcos/mesos-resources state=absent
+  - name: clean mesos meta data
+    when: not file_exists.stat.exists
+    file: path=/var/lib/mesos/slave/meta/slaves/latest state=absent
+  - name: Create folder /dcos/volume0
+    when: not file_exists.stat.exists
+    file: path=/dcos/volume0 state=directory
+  - name: Create folder /dcos-data-disks
+    when: not file_exists.stat.exists
+    file: path=/dcos-data-disks state=directory
+  - name: Create a disk image
+    when: not file_exists.stat.exists
+    command: dd if=/dev/zero of=/dcos-data-disks/volume0.img count=2000000
+  - name: Setup disk image
+    when: not file_exists.stat.exists
+    command: losetup /dev/loop0 /dcos-data-disks/volume0.img
+  - name: Makefilesystem disk image
+    when: not file_exists.stat.exists
+    command: mkfs -t ext4 /dev/loop0
+  - name: Delete setup disk image
+    when: not file_exists.stat.exists
+    command: losetup -d /dev/loop0
+  - name: Set fstab
+    lineinfile: dest=/etc/fstab line="/dcos-data-disks/volume0.img /dcos/volume0 auto loop 0 2"
+  - name: Mount disk
+    when: not file_exists.stat.exists
+    command: mount /dcos/volume0
+  - name: restart machine
+    when: not file_exists.stat.exists
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    ignore_errors: true
+  - name: Waiting for server to come back
+    when: not file_exists.stat.exists
+    delegate_to: localhost
+    wait_for: host={{ inventory_hostname }} state=started delay=20 timeout=180
