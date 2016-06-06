@@ -18,3 +18,18 @@ This project is complementary to dcos-vagrant
 # How to run
 - open a terminal
 - run `manage.sh -h`
+
+# Scope
+
+Test persistent storage with kafka and elasticsearch
+
+- Cluster with 4 agents
+- Create 3 mount points under /dcos/volume0 ... volume2 on 3 agents https://dcos.io/docs/1.7/administration/storage/
+- ACL set to permissive (disabled)
+- ????
+- Link disc /dcos/volume0 to role kafka-role
+- Link disc /dcos/volume2 to role elasticsearch-role
+- ???
+- If don't work enable authentication, see issue https://issues.apache.org/jira/browse/MESOS-5212
+- Deploy kafka framework on /dcos/volume0
+- Deploy elasticsearch on /dcos/volume2

@@ -100,7 +100,10 @@ parseCli "$@"
 clusterInit
 
 # -- main --
-echo ${ARG_CMD} = ${ARG_CMD_OPT}
+
+echo "ARG_CMD: ${ARG_CMD}"
+echo "ARG_CMD_OPT: ${ARG_CMD_OPT}"
+echo "CLUSTER_SIZE: ${CLUSTER_SIZE} "
 cd ${SCRIPT_PATH}/dcos-vagrant/
 
 case ${ARG_CMD} in
