@@ -1,7 +1,7 @@
 [mesos:vars]
 ansible_user=vagrant
 ansible_sudo=true
-ansible_private_key_file=.vagrant/machines/{{inventory_hostname_short}}/virtualbox/private_key
+ansible_private_key_file=./dcos-vagrant/.vagrant/machines/{{inventory_hostname_short}}/virtualbox/private_key
 
 
 [mesos]

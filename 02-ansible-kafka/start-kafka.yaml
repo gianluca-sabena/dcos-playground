@@ -1,0 +1,11 @@
+---
+- hosts: boot
+  become: true
+  become_user: root
+  tasks:
+  - file: path=/opt/config state=directory
+  - copy: src=config/dcos-kafka.json dest=/opt/config/dcos-kafka.json owner=root group=root mode=0644
+  - command: /opt/dcos-cli/bin/dcos config set core.dcos_url http://m1.dcos
+  - command: /opt/dcos-cli/bin/dcos package install --options=/opt/config/dcos-kafka.json kafka
+    register: result
+  - debug: var=result

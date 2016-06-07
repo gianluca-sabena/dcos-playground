@@ -100,7 +100,7 @@ parseCli "$@"
 clusterInit
 
 # -- main --
-
+#VAGRANT_LOG=info
 echo "ARG_CMD: ${ARG_CMD}"
 echo "ARG_CMD_OPT: ${ARG_CMD_OPT}"
 echo "CLUSTER_SIZE: ${CLUSTER_SIZE} "
@@ -111,7 +111,8 @@ case ${ARG_CMD} in
   "up")   clusterUp ;;
   "ansible")
     echo " * run ansible"
-    ansible-playbook -i ${SCRIPT_PATH}/config/${CLUSTER_SIZE}.inv ../${ARG_CMD_OPT}
+		cd ${SCRIPT_PATH}
+    ansible-playbook -i ${SCRIPT_PATH}/config/${CLUSTER_SIZE}.inv ${ARG_CMD_OPT}
   ;;
 	"status")
 	  cd ${SCRIPT_PATH}/dcos-vagrant/

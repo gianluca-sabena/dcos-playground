@@ -1,0 +1,14 @@
+- hosts: local
+  tasks:
+  - debug: msg="{{ lookup('file','config/marathon-kafka.json')}}"
+  - uri:
+      url: "http://m1.dcos/service/marathon/v2/apps"
+      register: result
+      method: POST
+      body_format: json
+      status_code: 200,201
+      body: "{{ lookup('file','config/marathon-kafka.json')  }}"
+    register: result
+  - debug: var=result
+  - uri: url="http://m1.dcos/service/marathon/v2/apps" return_content=yes register=result
+  - debug: var=result

@@ -1,0 +1,17 @@
+{
+    "service": {
+        "name": "kafka",
+        "placement_strategy": "NODE",
+        "phase_strategy": "INSTALL"
+    },
+    "brokers": {
+        "count": 1,
+        "cpus": 0.5,
+        "mem": 125,
+        "disk_type": "MOUNT"
+    },
+    "kafka": {
+        "delete_topic_enable": true,
+        "log_retention_hours": 48
+    }
+}
