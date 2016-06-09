@@ -1,0 +1,9 @@
+---
+- hosts: mesos-masters
+  become: true
+  become_user: root
+  tasks:
+  - command: docker run mesosphere/janitor /janitor.py -r kafka-role -p kafka-principal -z kafka
+    register: result
+    when: "{{ play_hosts|length }} == 1"
+  - debug: var=result

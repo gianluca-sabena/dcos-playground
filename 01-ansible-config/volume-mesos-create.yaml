@@ -1,0 +1,28 @@
+---
+- hosts: mesos-agents
+  become: true
+  become_user: root
+  tasks:
+  - name: test connection
+    ping:
+  - name: stop mesos service
+    service: name=dcos-mesos-slave state=stopped
+  # volumeBasePath=dcos -> automatic add disk to mesos role(*)
+  # any other base path (eg. volumeBasePath=mesos-storage) require to modify resource file
+  - include: include/volume-create.yaml volumeBasePath=mesos volumeId=3 volumeSize=2000000
+  - include: include/volume-create.yaml volumeBasePath=mesos volumeId=4 volumeSize=2250000
+  - include: include/volume-create.yaml volumeBasePath=mesos volumeId=5 volumeSize=2500000
+  - name: clean dcos meta data
+    file: path=/var/lib/dcos/mesos-resources state=absent
+  - name: clean mesos meta data
+    file: path=/var/lib/mesos/slave/meta/slaves/latest state=absent
+  # TODO: create static resources
+  - name: restart machine
+    command: shutdown -r now "Ansible updates triggered"
+    async: 0
+    poll: 0
+    ignore_errors: true
+  - name: waiting for server to come back
+    local_action: wait_for host={{ inventory_hostname }}
+                  state=started
+    sudo: false

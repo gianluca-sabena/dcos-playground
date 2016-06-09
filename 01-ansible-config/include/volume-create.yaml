@@ -1,0 +1,24 @@
+  - name: check for file
+    stat: path=/{{volumeBasePath}}-data-disks/volume{{volumeId}}.img
+    register: file_exists
+  - name: Create folder /{{volumeBasePath}}/volume{{volumeId}}
+    when: not file_exists.stat.exists
+    file: path=/{{volumeBasePath}}/volume{{volumeId}} state=directory
+  - name: Create folder /{{volumeBasePath}}-data-disks
+    when: not file_exists.stat.exists
+    file: path=/{{volumeBasePath}}-data-disks state=directory
+  - name: Create a disk image
+    when: not file_exists.stat.exists
+    command: dd if=/dev/zero of=/{{volumeBasePath}}-data-disks/volume{{volumeId}}.img count={{volumeSize}}
+  - name: Setup loopdevice
+    when: not file_exists.stat.exists
+    command: losetup /dev/loop{{volumeId}} /{{volumeBasePath}}-data-disks/volume{{volumeId}}.img
+  - name: Makefilesystem disk image
+    when: not file_exists.stat.exists
+    command: mkfs -t ext4 /dev/loop{{volumeId}}
+  - name: Delete setup disk image
+    when: not file_exists.stat.exists
+    command: losetup -d /dev/loop{{volumeId}}
+  - name: Mount disk
+    when: not file_exists.stat.exists
+    mount: name=/{{volumeBasePath}}/volume{{volumeId}} src=/{{volumeBasePath}}-data-disks/volume{{volumeId}}.img fstype=auto opts=loop state=mounted

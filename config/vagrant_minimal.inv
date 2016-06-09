@@ -19,4 +19,4 @@ a1.dcos     mesos_role="agent"
 boot.dcos       mesos_role="boot"
 
 [local]
-localhost           ansible_connection=local
+localhost           ansible_connection=local slavesId="[ 'a29f6cef-65b3-4c63-a399-a67061a71648-S2']"

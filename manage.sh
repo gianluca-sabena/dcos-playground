@@ -77,7 +77,8 @@ function clusterUp() {
   case ${CLUSTER_SIZE} in
     "vagrant_minimal")
       msg " Start vagrant_small (1 master, 1 agent1, 1 boot) cluster"
-      vagrant up m1 a1 boot
+      #VAGRANT_LOG=info
+			vagrant up m1 a1 boot
       ;;
     "vagrant_small")
       msg " Start vagrant_small (1 master, 3 agents, 1 boot) cluster"
@@ -100,7 +101,6 @@ parseCli "$@"
 clusterInit
 
 # -- main --
-#VAGRANT_LOG=info
 echo "ARG_CMD: ${ARG_CMD}"
 echo "ARG_CMD_OPT: ${ARG_CMD_OPT}"
 echo "CLUSTER_SIZE: ${CLUSTER_SIZE} "

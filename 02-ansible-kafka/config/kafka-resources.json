@@ -1,0 +1,17 @@
+[{
+    "role": "kafka-role",
+    "reservation": {},
+    "name": "disk",
+    "type": "SCALAR",
+    "scalar": {
+        "value": 777
+    },
+    "disk": {
+        "source": {
+            "type": "MOUNT",
+            "mount": {
+                "root": "/dcos/volume0"
+            }
+        }
+    }
+}]

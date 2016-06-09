@@ -35,6 +35,9 @@ Test persistent storage with kafka and elasticsearch
 - Deploy elasticsearch on /dcos/volume2
 
 # Notes
+
 - DCOS disc mount https://dcos.io/docs/1.7/administration/storage/ place data in a role (*), to reserve this disk to a specific operator
 must made a dynamic reservation with the exact size of the disk (the size is match selector, what happen if the system has 2 disk with exact same size?)
 It is probably more secure to bypass dcos disk script and create a static reservation (disk in a specific role)
+
+- Completely clean a framework from dcos https://docs.mesosphere.com/1.7/usage/services/uninstall/

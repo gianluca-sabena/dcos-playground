@@ -1,0 +1,12 @@
+- hosts: local
+  tasks:
+  - debug: msg="{{ lookup('file','config/kafka-resources.json')}}"
+  - uri:
+      url: "http://m1.dcos/mesos/master/unreserve"
+      method: POST
+      status_code: 200,201
+      HEADER_Content-Type: "application/x-www-form-urlencoded"
+      body: "slaveId={{ item }}&resources={{ lookup('file','config/kafka-resources.json')  }}"
+    register: result
+    with_items: "{{ slavesId }}"
+  - debug: var=result

@@ -1,9 +1,9 @@
 {
   "id": "/kafka",
-  "cmd": "export PATH=$(ls -d $MESOS_SANDBOX/jre*/bin):$PATH && ./scheduler/bin/kafka-scheduler server ./scheduler/conf/scheduler.yml",
+  "cmd": "cat ./scheduler/conf/scheduler.yml && ./scheduler/bin/kafka-scheduler && export PATH=$(ls -d $MESOS_SANDBOX/jre*/bin):$PATH && ./scheduler/bin/kafka-scheduler server ./scheduler/conf/scheduler.yml",
   "cpus": 0.2,
   "mem": 256,
-  "disk": 777,
+  "disk": 200,
   "instances": 1,
   "env": {
     "KAFKA_OVERRIDE_LEADER_IMBALANCE_CHECK_INTERVAL_SECONDS": "300",
@@ -102,7 +102,7 @@
     "KAFKA_OVERRIDE_REPLICA_FETCH_WAIT_MAX_MS": "500",
     "KAFKA_OVERRIDE_FETCH_PURGATORY_PURGE_INTERVAL_REQUESTS": "1000",
     "KAFKA_OVERRIDE_LOG_CLEANUP_POLICY": "delete",
-    "BROKER_DISK": "777",
+    "BROKER_DISK": "500",
     "KAFKA_OVERRIDE_REPLICA_FETCH_BACKOFF_MS": "1000",
     "KAFKA_OVERRIDE_REPLICA_SOCKET_RECEIVE_BUFFER_BYTES": "65536",
     "KAFKA_VER_NAME": "kafka_2.11-0.10.0.0"
